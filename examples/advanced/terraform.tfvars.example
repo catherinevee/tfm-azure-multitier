@@ -1,0 +1,54 @@
+# Example terraform.tfvars file for Advanced Multi-Tier Architecture
+# Copy this file to terraform.tfvars and customize the values
+
+# Resource Group Configuration
+resource_group_name = "rg-multitier-advanced"
+location            = "eastus"
+
+# Virtual Network Configuration
+virtual_network_name        = "vnet-multitier-advanced"
+virtual_network_address_space = ["172.16.0.0/16"]
+
+# Subnet Configuration
+web_subnet_address_prefixes      = ["172.16.1.0/24"]
+app_subnet_address_prefixes      = ["172.16.2.0/24"]
+database_subnet_address_prefixes = ["172.16.3.0/24"]
+
+# Service Endpoints
+web_subnet_service_endpoints      = ["Microsoft.Storage", "Microsoft.KeyVault"]
+app_subnet_service_endpoints      = ["Microsoft.Storage", "Microsoft.KeyVault", "Microsoft.ServiceBus"]
+database_subnet_service_endpoints = ["Microsoft.Sql", "Microsoft.KeyVault"]
+
+# Load Balancer Configuration
+create_web_load_balancer = true
+create_app_load_balancer = true
+
+# Application Gateway Configuration
+create_application_gateway = true
+app_gateway_sku_name       = "WAF_v2"
+app_gateway_sku_tier       = "WAF_v2"
+app_gateway_sku_capacity   = 2
+
+# Bastion Host Configuration
+create_bastion_host = true
+
+# Network Watcher Configuration
+create_network_watcher = true
+
+# Route Tables Configuration (optional)
+create_web_route_table      = false
+create_app_route_table      = false
+create_database_route_table = false
+
+# DDoS Protection (optional)
+enable_ddos_protection = false
+
+# Common Tags
+common_tags = {
+  Environment = "production"
+  Project     = "multitier-advanced"
+  ManagedBy   = "terraform"
+  Owner       = "devops-team"
+  CostCenter  = "IT-001"
+  Version     = "1.0.0"
+} 
