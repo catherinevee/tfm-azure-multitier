@@ -25,6 +25,13 @@ resource "azurerm_virtual_network" "main" {
     "Component" = "virtual-network"
     "Tier"      = "main"
   })
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes = [
+      tags["LastModified"]
+    ]
+  }
 }
 
 # =============================================================================
@@ -695,7 +702,7 @@ resource "azurerm_bastion_host" "main" {
 # Network Watcher (required for some networking features)
 resource "azurerm_network_watcher" "main" {
   count               = var.create_network_watcher ? 1 : 0
-  name                = var.network_watcher_name
+  name                = var.network_watcher_name != null ? var.network_watcher_name : "NetworkWatcher_${var.location}"
   location            = var.location
   resource_group_name = var.resource_group_name
 

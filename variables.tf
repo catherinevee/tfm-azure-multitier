@@ -3,8 +3,13 @@
 # =============================================================================
 
 variable "resource_group_name" {
-  description = "Name of the resource group where resources will be created"
+  description = "Name of the resource group where resources will be created (string)"
   type        = string
+
+  validation {
+    condition     = length(var.resource_group_name) >= 1 && length(var.resource_group_name) <= 90
+    error_message = "Resource group name must be between 1 and 90 characters."
+  }
 
   validation {
     condition     = can(regex("^[a-zA-Z0-9_-]+$", var.resource_group_name))
@@ -13,12 +18,19 @@ variable "resource_group_name" {
 }
 
 variable "location" {
-  description = "Azure region where resources will be created"
+  description = "Azure region where resources will be created (string)"
   type        = string
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9]+$", var.location))
-    error_message = "Location must be a valid Azure region name."
+    condition = contains([
+      "eastus", "eastus2", "southcentralus", "westus2", "westus3",
+      "centralus", "northcentralus", "westcentralus", "westus",
+      "northeurope", "westeurope", "uksouth", "ukwest", "canadacentral",
+      "canadaeast", "brazilsouth", "japaneast", "japanwest", "southeastasia",
+      "eastasia", "australiaeast", "australiasoutheast", "centralindia",
+      "southindia", "westindia", "koreacentral", "koreasouth"
+    ], var.location)
+    error_message = "Location must be a valid Azure region. See https://azure.microsoft.com/en-us/global-infrastructure/geographies/ for valid regions."
   }
 }
 
@@ -1180,10 +1192,10 @@ variable "create_network_watcher" {
 variable "network_watcher_name" {
   description = "Name of the network watcher"
   type        = string
-  default     = "NetworkWatcher_${var.location}"
+  default     = null
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9_-]+$", var.network_watcher_name))
+    condition     = var.network_watcher_name == null || can(regex("^[a-zA-Z0-9_-]+$", var.network_watcher_name))
     error_message = "Network watcher name must contain only alphanumeric characters, hyphens, and underscores."
   }
 }
