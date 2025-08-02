@@ -35,26 +35,22 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Ignore lock files (optional - some teams prefer to version control these)
-# .terraform.lock.hcl
+# Ignore lock files
+.terraform.lock.hcl
 
-# Ignore any local backup files
-*.backup
-*.bak
+# Ignore test results
+test-results/
+*.test
+*.tftest.hcl.json
 
-# Ignore any local environment files
-.env
-.env.local
-.env.*.local
-
-# Ignore IDE and editor files
+# IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Ignore OS generated files
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -63,13 +59,9 @@ terraform.rc
 ehthumbs.db
 Thumbs.db
 
-# Ignore log files
+# Logs
 *.log
 
-# Ignore temporary files
+# Temporary files
 *.tmp
-*.temp
-
-# Ignore any local configuration files
-local.tf
-local.tfvars 
+*.temp 

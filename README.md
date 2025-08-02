@@ -35,6 +35,128 @@ Internet
 └─────────────────┘    └─────────────────┘
 ```
 
+## Resource Map
+
+### Core Networking Resources
+
+| Resource Type | Name | Purpose | Tier | Estimated Cost |
+|---------------|------|---------|------|----------------|
+| Virtual Network | `vnet-multitier` | Main network infrastructure | Core | $0.00/month |
+| Subnet | `snet-web` | Web tier subnet (10.0.1.0/24) | Web | $0.00/month |
+| Subnet | `snet-app` | Application tier subnet (10.0.2.0/24) | App | $0.00/month |
+| Subnet | `snet-database` | Database tier subnet (10.0.3.0/24) | Database | $0.00/month |
+| Subnet | `snet-appgateway` | Application Gateway subnet (10.0.4.0/24) | Gateway | $0.00/month |
+| Subnet | `snet-bastion` | Bastion host subnet (10.0.5.0/24) | Security | $0.00/month |
+
+### Network Security Groups
+
+| Resource Type | Name | Purpose | Rules | Estimated Cost |
+|---------------|------|---------|-------|----------------|
+| NSG | `nsg-web` | Web tier security | HTTP/HTTPS inbound | $0.00/month |
+| NSG | `nsg-app` | Application tier security | Web tier to app tier | $0.00/month |
+| NSG | `nsg-database` | Database tier security | App tier to database | $0.00/month |
+
+### Load Balancers
+
+| Resource Type | Name | Purpose | SKU | Estimated Cost |
+|---------------|------|---------|-----|----------------|
+| Load Balancer | `lb-web` | Web tier load balancing | Standard | $18.26/month |
+| Load Balancer | `lb-app` | Application tier load balancing | Standard | $18.26/month |
+| Backend Pool | `web-lb-backend-pool` | Web servers backend | - | $0.00/month |
+| Backend Pool | `app-lb-backend-pool` | Application servers backend | - | $0.00/month |
+
+### Application Gateway
+
+| Resource Type | Name | Purpose | SKU | Estimated Cost |
+|---------------|------|---------|-----|----------------|
+| Application Gateway | `appgw-multitier` | Layer 7 load balancer | Standard_v2 | $131.40/month |
+| Public IP | `pip-appgw` | Application Gateway public IP | Standard | $3.65/month |
+| Backend Pool | `web-backend-pool` | Web servers backend | - | $0.00/month |
+| HTTP Settings | `web-http-settings` | Backend HTTP configuration | - | $0.00/month |
+| Listener | `web-listener` | HTTP traffic listener | - | $0.00/month |
+| Routing Rule | `web-routing-rule` | Traffic routing rule | - | $0.00/month |
+
+### Bastion Host
+
+| Resource Type | Name | Purpose | SKU | Estimated Cost |
+|---------------|------|---------|-----|----------------|
+| Bastion Host | `bastion-multitier` | Secure access to private resources | Standard | $95.04/month |
+| Public IP | `pip-bastion` | Bastion host public IP | Standard | $3.65/month |
+
+### Network Watcher
+
+| Resource Type | Name | Purpose | Estimated Cost |
+|---------------|------|---------|----------------|
+| Network Watcher | `NetworkWatcher_<region>` | Network monitoring and diagnostics | $0.00/month |
+
+### Route Tables (Optional)
+
+| Resource Type | Name | Purpose | Estimated Cost |
+|---------------|------|---------|----------------|
+| Route Table | `rt-web` | Web tier custom routing | $0.00/month |
+| Route Table | `rt-app` | Application tier custom routing | $0.00/month |
+| Route Table | `rt-database` | Database tier custom routing | $0.00/month |
+
+### Resource Dependencies
+
+```
+Virtual Network
+├── Web Subnet
+│   ├── Web NSG
+│   ├── Web Load Balancer
+│   └── Web Route Table (optional)
+├── Application Subnet
+│   ├── Application NSG
+│   ├── Application Load Balancer
+│   └── Application Route Table (optional)
+├── Database Subnet
+│   ├── Database NSG
+│   └── Database Route Table (optional)
+├── Application Gateway Subnet
+│   └── Application Gateway
+├── Bastion Subnet (optional)
+│   └── Bastion Host
+└── Network Watcher (optional)
+```
+
+### Security Configuration
+
+| Component | Security Features | Best Practices |
+|-----------|------------------|----------------|
+| Virtual Network | DDoS protection (optional) | Enable for production |
+| Subnets | Private subnets for app/db tiers | Isolate sensitive workloads |
+| NSGs | Tier-specific rules | Principle of least privilege |
+| Application Gateway | WAF capabilities (WAF_v2 SKU) | Enable for web applications |
+| Bastion Host | Secure access to private resources | Use for administrative access |
+| Load Balancers | Health probes and rules | Configure appropriate health checks |
+
+### Monitoring and Diagnostics
+
+| Component | Monitoring Features | Configuration |
+|-----------|-------------------|---------------|
+| Network Watcher | Network diagnostics, flow logs | Enable for troubleshooting |
+| Load Balancers | Health probes, metrics | Configure health check endpoints |
+| Application Gateway | Health probes, metrics | Monitor application health |
+| NSGs | Flow logs, security rules | Track network traffic patterns |
+
+### Cost Optimization
+
+| Strategy | Implementation | Estimated Savings |
+|----------|----------------|------------------|
+| SKU Selection | Use Basic SKU for dev/test | 50-70% cost reduction |
+| Capacity Planning | Right-size Application Gateway | 20-40% cost reduction |
+| Resource Sharing | Use shared Network Watcher | $0.00/month |
+| Tagging | Implement cost allocation tags | Improved cost tracking |
+
+### Deployment Information
+
+- **Terraform Version**: >= 1.13.0
+- **Azure Provider Version**: ~> 4.38.1
+- **Estimated Total Cost**: $250.26/month (Standard SKUs)
+- **Estimated Dev/Test Cost**: $125.13/month (Basic SKUs)
+- **Deployment Time**: 15-20 minutes
+- **Resource Count**: 25-35 resources (depending on configuration)
+
 ### Components
 
 - **Virtual Network**: Main network with multiple subnets
@@ -483,6 +605,10 @@ telnet <database-ip> 1433
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
 
+## Code of Conduct
+
+This project adheres to the Contributor Covenant Code of Conduct. Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
+
 ## License
 
 This module is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -500,11 +626,14 @@ For support and questions:
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
 
 ### Version 1.0.0
-- Initial release
-- Multi-tier architecture support
-- Load balancer integration
-- Application gateway support
-- Network security group configuration
-- Bastion host integration
-- Comprehensive documentation and examples
-- Testing framework implementation
+- Initial release of tfm-azure-dmz module
+- Multi-tier architecture with web, application, and database tiers
+- Load balancer integration for web and application tiers
+- Application Gateway with advanced features
+- Network Security Groups with tier-specific rules
+- Route tables for custom routing scenarios
+- Bastion host for secure access
+- Network Watcher for monitoring and diagnostics
+- Comprehensive input validation and error handling
+- Testing framework with native Terraform tests
+- Complete documentation and examples

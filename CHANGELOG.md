@@ -8,46 +8,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Comprehensive .gitignore file for Terraform projects
-- MIT License file
-- CHANGELOG.md for version tracking
-- Enhanced variable validations with length constraints
-- Lifecycle management for critical resources
-- Improved output descriptions with data types
-- Basic testing framework structure
+- Comprehensive multi-tier architecture support
+- Load balancer integration for web and application tiers
+- Application Gateway with advanced features
+- Network Security Groups with tier-specific rules
+- Route tables for custom routing scenarios
+- Bastion host for secure access
+- Network Watcher for monitoring and diagnostics
+- DDoS protection plan integration
+- Service endpoints and subnet delegations
+- Comprehensive input validation
+- Extensive output variables
+- Testing framework with native Terraform tests
+- Complete documentation and examples
 
 ### Changed
-- Updated Terraform required version to >= 1.13.0
+- Updated Terraform version requirement to >= 1.13.0
 - Updated Azure provider version to ~> 4.38.1
-- Enhanced variable validation blocks with better error messages
-- Improved tagging strategy with default tags
+- Enhanced variable validation with comprehensive rules
+- Improved resource tagging and organization
+- Streamlined module structure and documentation
 
 ### Fixed
-- Provider version constraints updated to latest stable versions
-- Variable validation improvements for better error handling
-- Output descriptions enhanced for better documentation
+- Resolved Azure provider compatibility issues
+- Fixed variable validation for network watcher name
+- Corrected subnet and NSG association configurations
+- Improved error handling and validation messages
 
-## [1.0.0] - 2025-01-XX
+## [1.0.0] - 2024-01-01
 
 ### Added
-- Initial release of Azure Multi-Tier Architecture module
-- Virtual Network with multiple subnets (Web, Application, Database)
+- Initial release of tfm-azure-dmz module
+- Multi-tier architecture with web, application, and database tiers
+- Virtual network with multiple subnets
 - Network Security Groups for each tier
-- Load Balancers for Web and Application tiers
+- Load balancers for web and application tiers
 - Application Gateway with SSL termination
-- Bastion Host for secure access
+- Route tables for custom routing
+- Bastion host for secure access
 - Network Watcher for monitoring
-- Route Tables for custom routing
-- DDoS Protection integration
-- Service Endpoints and Subnet Delegations
-- Comprehensive tagging strategy
+- Comprehensive documentation and examples
+- Input validation and error handling
+- Resource tagging and organization
 
-### Features
-- Multi-tier architecture support
-- Configurable subnet configurations
-- Custom NSG rules per tier
-- Load balancer health checks and rules
-- Application Gateway with advanced features
-- Secure access through Bastion Host
-- Network monitoring and diagnostics
-- Cost optimization through proper resource sizing 
+### Security
+- Tier-specific network security group rules
+- Private subnets for application and database tiers
+- Secure bastion host access
+- DDoS protection integration
+- Service endpoint configurations
+
+### Performance
+- Standard SKU load balancers
+- Application Gateway with WAF capabilities
+- Optimized subnet configurations
+- Network monitoring and diagnostics 
