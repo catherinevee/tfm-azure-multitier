@@ -1,4 +1,4 @@
-# Testing Guide for tfm-azure-multitier
+# Testing Guide for Azure Multi-Tier Architecture Module
 
 This directory contains tests for the Azure Multi-Tier Architecture Terraform module.
 

@@ -60,6 +60,15 @@ Internet
 - ✅ **Service Endpoints**: Azure service integration
 - ✅ **Subnet Delegations**: Service-specific subnet configurations
 - ✅ **Comprehensive Tagging**: Resource management and cost tracking
+- 📋 **Resource Map**: Comprehensive documentation of all created resources
+
+## Documentation
+
+- [**Resource Map**](RESOURCE_MAP.md) - Detailed overview of all Azure resources, their relationships, and dependencies
+- [**Examples**](examples/) - Working examples for different deployment scenarios
+- [**Tests**](tests/) - Comprehensive test suite for module validation
+- [**Contributing**](CONTRIBUTING.md) - Guidelines for contributing to the module
+- [**Changelog**](CHANGELOG.md) - Version history and changes
 
 ## Requirements
 
